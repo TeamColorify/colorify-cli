@@ -1,0 +1,3 @@
+[submodule "lib/colorify"]
+	path = lib/colorify
+	url = git@github.com:TeamColorify/colorify.git

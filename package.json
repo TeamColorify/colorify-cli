@@ -1,10 +1,19 @@
 {
   "name": "colorify-cli",
   "version": "1.0.0",
+  "bin": {
+    "colorify-cli":"index.js"
+  },
+  "directories": {"lib": "lib"},
   "description": "Colorify is more than just a CSS Library. Work on the colorify-cli has been started now. This will be the official repository for the CLI.",
   "main": "index.js",
   "repository": "https://github.com/TeamColorify/colorify-cli",
   "author": "Ashutosh Kumar <raj.fungus@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "inquirer": "^7.1.0",
+    "node-sass": "^4.14.1"
+  }
 }
