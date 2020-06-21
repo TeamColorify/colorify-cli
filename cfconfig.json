@@ -1,4 +1,24 @@
-{ 
- "types":["material"],
- "outputStyle":"compact"
- }
+{
+    "types": [
+        {
+            "name": "flatui",
+            "properties": [
+                {
+                    "name":"text"
+                }
+            ]
+        },
+        {
+            "name": "material",
+            "properties": [
+                {
+                    "name":"bg",
+                    "colors":["red","blue","green"]
+                },{
+                    "name":"text"
+                }
+            ]
+        }
+    ],
+    "outputStyle": "compact"
+}
