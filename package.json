@@ -1,6 +1,6 @@
 {
-  "name": "colorify-cli",
-  "version": "1.0.0",
+  "name": "@colorify/cli",
+  "version": "0.0.0",
   "bin": {
     "colorify-cli": "index.js"
   },
@@ -16,6 +16,7 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "inquirer": "^7.1.0",
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "update-notifier": "^4.1.0"
   }
 }

@@ -5,6 +5,11 @@ const inquirer = require('inquirer');
 const sass = require('node-sass')
 const fs = require('fs')
 const path = require('path')
+const updateNotifier = require('update-notifier');
+
+// Update Notifications
+const pkg = require('./package.json');
+updateNotifier({pkg}).notify();
 
 
 //ImprotLibs
