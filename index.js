@@ -33,36 +33,61 @@ if (argv._[0] === 'init') {
     }
 }
 if (argv._[0] === 'create') {
-    const file = fs.createWriteStream('colorify.css')
     const config = require(path.join(process.cwd(), '/cfconfig.json'))
+    const file = fs.createWriteStream(config.filename || 'colorify.css')
     config.types.map((type) => {
-        type.properties.map(prop => {
-            if (prop.colors) {
-                prop.colors.map(color => {
-                    const sassfile = path.join(__dirname, 'lib/colorify/src/properties/' + prop.name + '/' + type.name + '/_' + color + '.scss')
-                    var result = sass.renderSync({
-                        file: sassfile,
-                        outputStyle: config.outputStyle
-                    })
-                    fs.appendFile(file.path, result.css, (err) => {
-                        if (!err)
-                            console.log('Done')
-                    })
-                })
-            }
-            else {
-                const sassfile = path.join(__dirname, 'lib/colorify/src/properties/' + prop.name + '/' + type.name + '/_' + type.name + prop.name + '.scss')
-                var result = sass.renderSync({
-                    file: sassfile,
-                    outputStyle: config.outputStyle
-                })
-                fs.appendFile(file.path, result.css, (err) => {
-                    if (!err)
-                        console.log('Done')
-                })
-            }
-        })
+        let types = ['material', 'flatui', 'metro', 'social']
+        if (!types.includes(type.name)) {
+            console.log(chalk.yellow('\nError: No Type with the name of "' + type.name + '" found.\nSkipping: Type - "' + type.name + '".'));
+        }
+        else {
+            type.properties.map(prop => {
+                if (prop.prop !== 'bg' && prop.prop !== 'text' && prop.prop !== 'bd') {
+                    console.log(chalk.yellow('\nError: No Property with the Abbrieviation "' + prop.prop + '" is found.\nSkipping: Property - "' + prop.prop + '" in "' + type.name + '".'))
+                }
+                else {
+                    if (prop.colors) {
+                        if (type.name === 'metro' || type.name === 'social') {
+                            console.log(chalk.yellow('\nError: Type "' + type.name + '" does not support color variation yet.\nSkipping: Type - "' + type.name + '".'))
+                        }
+                        else {
+                            prop.colors.map(color => {
+                                try {
+                                    const sassfile = path.join(__dirname, 'lib/colorify/src/properties/' + prop.prop + '/' + type.name + '/_' + color + '.scss')
+                                    var result = sass.renderSync({
+                                        file: sassfile,
+                                        outputStyle: config.outputStyle
+                                    })
+                                    fs.appendFile(file.path, result.css, (err) => {
+                                        if (err)
+                                            console.log(chalk.red('Something Went Wrong'))
+                                    })
+                                } catch (error) {
+                                    console.log(chalk.yellow('\nError: No color with the name "' + color + '" found in ' + type.name + '.\nSkipping: Color - "' + color + '" in "' + type.name + '".'))
+                                }
+
+                            })
+                        }
+                    }
+                    else {
+                        const sassfile = path.join(__dirname, 'lib/colorify/src/properties/' + prop.prop + '/' + type.name + '/_' + type.name + prop.prop + '.scss')
+                        var result = sass.renderSync({
+                            file: sassfile,
+                            outputStyle: config.outputStyle
+                        })
+                        fs.appendFile(file.path, result.css, (err) => {
+                            if (err)
+                                console.log(chalk.red('Something Went Wrong'))
+                        })
+                    }
+                }
+
+            })
+        }
+
     })
+    console.log(chalk.green('\nColorify file created succesfully\n'))
 }
+
 
 
