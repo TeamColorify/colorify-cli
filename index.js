@@ -38,7 +38,13 @@ if (argv._[0] === 'init') {
     }
 }
 if (argv._[0] === 'create') {
-    const config = require(path.join(process.cwd(), '/cfconfig.json'))
+    if(fileFunctions.fileExists('cfconfig.json')){
+        const config = require(path.join(process.cwd(), '/cfconfig.json'))
+    }
+    else{
+        console.log(chalk.red('\n Config file `csconfig.json` doesn\'t exist.\n' ))
+        process.exit(1)
+    }
     const file = fs.createWriteStream(config.filename || 'colorify.css')
     config.types.map((type) => {
         let types = ['material', 'flatui', 'metro', 'social']
