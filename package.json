@@ -1,5 +1,5 @@
 {
-  "name": "@colorify/cli",
+  "name": "colorify-cli",
   "version": "0.0.0",
   "bin": {
     "colorify-cli": "index.js"
