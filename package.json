@@ -7,6 +7,9 @@
   "directories": {
     "lib": "lib"
   },
+  "scripts": {
+    "test": "echo No test specified"
+  },
   "description": "Colorify is more than just a CSS Library. Work on the colorify-cli has been started now. This will be the official repository for the CLI.",
   "main": "index.js",
   "repository": "https://github.com/TeamColorify/colorify-cli",
