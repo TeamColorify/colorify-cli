@@ -11,37 +11,42 @@ const updateNotifier = require("update-notifier");
 const pkg = require("./package.json");
 updateNotifier({ pkg }).notify();
 
-//ImportLibs
+//Import Libs
 const fileFunctions = require("./lib/fileFunctions");
 const mainFuntions = require("./lib/mainFunctions");
 const { configCreationConfirmationPrompt } = require("./lib/inquirerFunctions");
 
-if (argv._[0] === "init") {
-    if (!fileFunctions.fileExists("cfconfig.json")) {
+if (String(argv._[0]) == "init") {
+    if (!fileFunctions.fileExists("colorify.config.js")) {
         mainFuntions.init();
     } else {
-        console.log(chalk.red("\n\nColorify: Config file already Exists.\n"));
+        console.log(chalk.red("Colorify: Config file already Exists."));
         configCreationConfirmationPrompt();
     }
 }
 
 if (argv._[0] === "create") {
     var config;
-    if (fileFunctions.fileExists("cfconfig.json")) {
-        config = require(path.join(process.cwd(), "/cfconfig.json"));
+    if (fileFunctions.fileExists("colorify.config.js")) {
+        config = require(path.join(process.cwd(), "/colorify.config.js"));
     } else {
-        console.log(chalk.red("\n Config file `csconfig.json` doesn't exist.\n"));
+        console.log(chalk.red("\nConfig file `colorify.config.js` doesn't exist."));
+        console.log(chalk.blue("\nYou might wanna run the following command in your project folder before the \'create\' command."));
+        console.log("\ncolorify-cli init\n");
         process.exit(1);
     }
-    const file = fs.createWriteStream(config.filename || "colorify.css");
+    // Config File Defaultify
     let types = config.types
-        ? config.types
-        : [
-            { name: "material", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
-            { name: "flatui", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
-            { name: "metro", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
-            { name: "social", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
-        ];
+    ? config.types
+    : [
+        { name: "material", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
+        { name: "flatui", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
+        { name: "metro", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
+        { name: "social", properties: [{ prop: "bg" }, { prop: "text" }, { prop: "bd" }] },
+    ];
+
+    const file = fs.createWriteStream(config.filename || "colorify.css");
+   
     types.map((type) => {
         let types = ["material", "flatui", "metro", "social"];
         if (!types.includes(type.name)) {
